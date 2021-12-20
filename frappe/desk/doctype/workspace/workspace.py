@@ -89,6 +89,7 @@ class Workspace(Document):
 					"type": "Link",
 					"link_type": link.get('link_type'),
 					"link_to": link.get('link_to'),
+					"link_to_url": link.get('link_to_url'),
 					"onboard": link.get('onboard'),
 					"only_for": link.get('only_for'),
 					"dependencies": link.get('dependencies'),

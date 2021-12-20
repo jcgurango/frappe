@@ -12,6 +12,7 @@
   "link_details_section",
   "link_type",
   "link_to",
+  "link_to_url",
   "column_break_7",
   "dependencies",
   "only_for",
@@ -107,12 +108,18 @@
    "fieldtype": "Int",
    "hidden": 1,
    "label": "Link Count"
+  },
+  {
+   "fieldname": "link_to_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Link To URL"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-06-01 11:23:28.990593",
+ "modified": "2021-12-21 04:13:38.175464",
  "modified_by": "Administrator",
  "module": "Desk",
  "name": "Workspace Link",

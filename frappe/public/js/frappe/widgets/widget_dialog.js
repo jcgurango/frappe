@@ -197,6 +197,13 @@ class CardDialog extends WidgetDialog {
 						}
 					},
 					{
+						fieldname: "link_to_url",
+						fieldtype: "Data",
+						in_list_view: 1,
+						label: "Link To URL",
+						options: "link_type"
+					},
+					{
 						fieldname: "column_break_7",
 						fieldtype: "Column Break"
 					},

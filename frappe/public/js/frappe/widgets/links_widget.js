@@ -42,6 +42,8 @@ export default class LinksWidget extends Widget {
 			return "gray";
 		};
 
+		console.log(this.links);
+
 		const get_link_for_item = item => {
 			if (is_link_disabled(item)) {
 				return `<span class="link-content ellipsis disabled-link">${
@@ -69,7 +71,8 @@ export default class LinksWidget extends Widget {
 				name: item.link_to,
 				type: item.link_type,
 				doctype: item.doctype,
-				is_query_report: item.is_query_report
+				is_query_report: item.is_query_report,
+				route: item.link_to_url,
 			};
 
 			if (item.link_type.toLowerCase() == "report" && !item.is_query_report) {
