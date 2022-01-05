@@ -332,7 +332,7 @@ frappe.views.BaseList = class BaseList {
 	}
 
 	setup_result_area() {
-		this.$result = $(`<div class="result">`);
+		this.$result = $(`<div class="result"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>`);
 		this.$frappe_list.append(this.$result);
 	}
 
@@ -786,6 +786,10 @@ class FilterArea {
 					};
 				})
 		);
+
+		if (this.list_view.settings.make_standard_filters) {
+			this.list_view.settings.make_standard_filters(fields);
+		}
 
 		fields.map(df => {
 			this.list_view.page.add_field(df, this.standard_filters_wrapper);

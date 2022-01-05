@@ -178,6 +178,16 @@
 			}
 		}
 	}
+
+	.frappe-list {
+		overflow-x: auto;
+	}
+
+	@media (max-width: 767.98px) {
+		.frappe-list .result {
+			width: initial !important;
+		}
+	}
 }
 
 .page-only-label {

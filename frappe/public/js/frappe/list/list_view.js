@@ -182,6 +182,10 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 				this.workflow_action_items[item.name] = $item;
 			}
 		});
+
+		if (this.settings.set_actions_menu_items) {
+			this.settings.set_actions_menu_items(this);
+		}
 	}
 
 	show_restricted_list_indicator_if_applicable() {
@@ -328,10 +332,15 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 	}
 
 	setup_columns() {
-		// setup columns for list view
 		this.columns = [];
 
 		const get_df = frappe.meta.get_docfield.bind(null, this.doctype);
+
+		// setup columns for list view
+		if (this.settings.get_columns) {
+			this.columns = this.settings.get_columns(get_df);
+			return;
+		}
 
 		// 1st column: title_field or name
 		if (this.meta.title_field) {
