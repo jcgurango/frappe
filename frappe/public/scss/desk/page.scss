@@ -155,12 +155,13 @@
 
 		@media (max-width: 767.98px) {
 			.list-row-container, .list-row-head {
-				width: 100% !important;
+				min-width: 100% !important;
 			}
 		}
 
 		.result {
 			overflow-x: auto;
+			overflow-y: hidden;
 		}
 
 		.result, .no-result, .freeze {
