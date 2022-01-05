@@ -153,6 +153,16 @@
 	.frappe-list, .report-wrapper {
 		padding: 0 var(--padding-xs);
 
+		@media (max-width: 767.98px) {
+			.list-row-container, .list-row-head {
+				width: 100% !important;
+			}
+		}
+
+		.result {
+			overflow-x: auto;
+		}
+
 		.result, .no-result, .freeze {
 			min-height: #{"calc(100vh - 284px)"};
 		}
@@ -176,16 +186,6 @@
 				margin-right: auto;
 				margin-left: auto;
 			}
-		}
-	}
-
-	.frappe-list {
-		overflow-x: auto;
-	}
-
-	@media (max-width: 767.98px) {
-		.frappe-list .result {
-			width: initial !important;
 		}
 	}
 }

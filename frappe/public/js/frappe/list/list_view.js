@@ -663,7 +663,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 
 	get_header_html_skeleton(left = "", right = "") {
 		return `
-			<header class="level list-row-head text-muted">
+			<header class="level list-row-head text-muted"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>
 				<div class="level-left list-header-subject">
 					${left}
 				</div>
@@ -700,7 +700,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 
 	get_list_row_html_skeleton(left = "", right = "") {
 		return `
-			<div class="list-row-container" tabindex="1">
+			<div class="list-row-container" tabindex="1"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>
 				<div class="level list-row">
 					<div class="level-left ellipsis">
 						${left}

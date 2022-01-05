@@ -332,7 +332,7 @@ frappe.views.BaseList = class BaseList {
 	}
 
 	setup_result_area() {
-		this.$result = $(`<div class="result"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>`);
+		this.$result = $(`<div class="result">`);
 		this.$frappe_list.append(this.$result);
 	}
 
