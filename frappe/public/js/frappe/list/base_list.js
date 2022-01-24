@@ -712,7 +712,7 @@ class FilterArea {
 
 	make_standard_filters() {
 		this.standard_filters_wrapper = this.list_view.page.page_form.find('.standard-filter-section');
-		let fields = [
+		let fields = this.list_view.settings.hide_name_column ? [] : [
 			{
 				fieldtype: "Data",
 				label: "Name",
