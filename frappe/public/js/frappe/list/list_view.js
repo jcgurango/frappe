@@ -182,6 +182,10 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 				this.workflow_action_items[item.name] = $item;
 			}
 		});
+
+		if (this.settings.set_actions_menu_items) {
+			this.settings.set_actions_menu_items(this);
+		}
 	}
 
 	show_restricted_list_indicator_if_applicable() {
@@ -333,10 +337,15 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 	}
 
 	setup_columns() {
-		// setup columns for list view
 		this.columns = [];
 
 		const get_df = frappe.meta.get_docfield.bind(null, this.doctype);
+
+		// setup columns for list view
+		if (this.settings.get_columns) {
+			this.columns = this.settings.get_columns(get_df);
+			return;
+		}
 
 		// 1st column: title_field or name
 		if (this.meta.title_field) {
@@ -661,7 +670,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 
 	get_header_html_skeleton(left = "", right = "") {
 		return `
-			<header class="level list-row-head text-muted">
+			<header class="level list-row-head text-muted"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>
 				<div class="level-left list-header-subject">
 					${left}
 				</div>
@@ -698,7 +707,7 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 
 	get_list_row_html_skeleton(left = "", right = "") {
 		return `
-			<div class="list-row-container" tabindex="1">
+			<div class="list-row-container" tabindex="1"${this.settings.list_width ? ` style="width: 100%; min-width: ${this.settings.list_width}px;"` : ''}>
 				<div class="level list-row">
 					<div class="level-left ellipsis">
 						${left}
