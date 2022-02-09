@@ -121,6 +121,7 @@ class WebPage(WebsiteGenerator):
 		out = get_web_blocks_html(self.page_blocks)
 		context.page_builder_html = out.html
 		context.page_builder_scripts = out.scripts
+		context.page_builder_script_srcs = out.script_srcs
 		context.page_builder_styles = out.styles
 
 	def add_hero(self, context):
@@ -184,8 +185,9 @@ def check_publish_status():
 def get_web_blocks_html(blocks):
 	'''Converts a list of blocks into Raw HTML and extracts out their scripts for deduplication'''
 
-	out = frappe._dict(html='', scripts=[], styles=[])
+	out = frappe._dict(html='', scripts=[], script_srcs=[], styles=[])
 	extracted_scripts = []
+	extracted_script_srcs = []
 	extracted_styles = []
 	for block in blocks:
 		web_template = frappe.get_cached_doc('Web Template', block.web_template)
@@ -194,7 +196,7 @@ def get_web_blocks_html(blocks):
 			'web_template_html': web_template.render(block.web_template_values),
 			'web_template_type': web_template.type
 		})
-		html, scripts, styles = extract_script_and_style_tags(rendered_html)
+		html, scripts, script_srcs, styles = extract_script_and_style_tags(rendered_html)
 		out.html += html
 		if block.web_template not in extracted_scripts:
 			out.scripts += scripts
@@ -202,6 +204,9 @@ def get_web_blocks_html(blocks):
 		if block.web_template not in extracted_styles:
 			out.styles += styles
 			extracted_styles.append(block.web_template)
+		if block.web_template not in extracted_script_srcs:
+			out.script_srcs += script_srcs
+			extracted_script_srcs.append(block.web_template)
 
 	return out
 
@@ -209,14 +214,19 @@ def extract_script_and_style_tags(html):
 	from bs4 import BeautifulSoup
 	soup = BeautifulSoup(html, "html.parser")
 	scripts = []
+	script_srcs = []
 	styles = []
 
 	for script in soup.find_all('script'):
-		scripts.append(script.string)
+		if script.get('src'):
+			script_srcs.append(script)
+		else:
+			scripts.append(script.string)
+
 		script.extract()
 
 	for style in soup.find_all('style'):
 		styles.append(style.string)
 		style.extract()
 
-	return str(soup), scripts, styles
+	return str(soup), scripts, script_srcs, styles
