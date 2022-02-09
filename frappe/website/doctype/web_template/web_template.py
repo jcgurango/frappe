@@ -7,6 +7,7 @@ from shutil import rmtree
 
 import frappe
 from frappe.model.document import Document
+from frappe.modules.utils import get_doc_module
 from frappe.website.utils import clear_cache
 from frappe import _
 from frappe.modules.export_file import (
@@ -108,10 +109,23 @@ class WebTemplate(Document):
 
 		return template
 
+	def get_module(self):
+		if self.standard:
+			try:
+				return get_doc_module(self.module or 'Website', self.doctype, self.name)
+			except ModuleNotFoundError:
+				return None
+
 	def render(self, values=None):
 		if not values:
 			values = {}
+		template_module = self.get_module()
+
 		values = frappe.parse_json(values)
+
+		if template_module:
+			template_module.on_render(self, values)
+
 		values.update({"values": values})
 		template = self.get_template(self.standard)
 
