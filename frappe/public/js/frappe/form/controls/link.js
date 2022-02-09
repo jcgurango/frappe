@@ -211,7 +211,7 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 						}
 						// advanced search
 
-						if (locals && locals['DocType']) {
+						if (locals && locals['DocType'] && frappe.ui.form.LinkSelector) {
 							// not applicable in web forms
 							r.results.push({
 								html: "<span class='text-primary link-option'>"

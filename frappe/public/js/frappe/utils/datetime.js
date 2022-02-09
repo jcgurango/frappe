@@ -143,16 +143,23 @@ $.extend(frappe.datetime, {
 			let date_obj = moment(val, frappe.defaultTimeFormat);
 			return date_obj.format(user_format);
 		} else {
-			let date_obj = moment.tz(val, frappe.boot.time_zone.system);
+			let date_obj = moment.tz(val, frappe.boot?.time_zone?.system);
 			if (typeof val !== "string" || val.indexOf(" ") === -1) {
 				user_format = user_date_fmt;
 			} else {
 				user_format = user_date_fmt + " " + user_time_fmt;
 			}
-			return date_obj
-				.clone()
-				.tz(frappe.boot.time_zone.user)
-				.format(user_format);
+
+			if (frappe.boot?.time_zone?.user) {
+				return date_obj
+					.clone()
+					.tz(frappe.boot.time_zone.user)
+					.format(user_format);
+			} else {
+				return date_obj
+					.clone()
+					.format(user_format);
+				}
 		}
 	},
 

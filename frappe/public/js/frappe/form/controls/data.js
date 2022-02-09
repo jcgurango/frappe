@@ -12,6 +12,7 @@ frappe.ui.form.ControlData = class ControlData extends frappe.ui.form.ControlInp
 		this.$input = $("<"+ html_element +">")
 			.attr("type", input_type)
 			.attr("autocomplete", "off")
+			.attr("name", this.df.fieldname)
 			.addClass("input-with-feedback form-control")
 			.prependTo(this.input_area);
 

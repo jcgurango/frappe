@@ -233,7 +233,7 @@ $.extend(frappe.meta, {
 	},
 
 	get_field_currency: function(df, doc) {
-		var currency = frappe.boot.sysdefaults.currency;
+		var currency = window.currency || frappe.boot.sysdefaults.currency;
 		if(!doc && cur_frm)
 			doc = cur_frm.doc;
 

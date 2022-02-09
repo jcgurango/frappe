@@ -43,8 +43,7 @@ frappe.ui.form.ControlDate = class ControlDate extends frappe.ui.form.ControlDat
 		}
 	}
 	set_date_options() {
-		// webformTODO:
-		let sysdefaults = frappe.boot.sysdefaults;
+		let sysdefaults = frappe.boot.sysdefaults || frappe.sys_defaults;
 
 		let lang = 'en';
 		frappe.boot.user && (lang = frappe.boot.user.language);
