@@ -1,7 +1,9 @@
 # Copyright (c) 2015, Frappe Technologies Pvt. Ltd. and Contributors
 # License: MIT. See LICENSE
 
+from shutil import ignore_patterns
 import frappe
+from frappe.model.rename_doc import rename_doc
 import frappe.utils
 import json, jwt
 import base64
@@ -178,7 +180,16 @@ def login_oauth_user(data=None, provider=None, state=None, email_id=None, key=No
 		frappe.respond_as_web_page(_("Invalid Request"), _("Token is missing"), http_status_code=417)
 		return
 
+	current_user = None
 	user = get_email(data)
+
+	# Find an exising user with this social login
+	if data.get('id') or data.get('sub'):
+		existing_user = frappe.get_value('User Social Login', filters={'provider': provider, 'userid': data.get('id') or data.get('sub')}, fieldname='parent')
+
+		if existing_user:
+			current_user = user
+			user = existing_user
 
 	if not user:
 		frappe.respond_as_web_page(_("Invalid Request"), _("Please ensure that your profile has an email address"))
@@ -191,6 +202,9 @@ def login_oauth_user(data=None, provider=None, state=None, email_id=None, key=No
 	except SignupDisabledError:
 		return frappe.respond_as_web_page("Signup is Disabled", "Sorry. Signup from Website is disabled.",
 			success=False, http_status_code=403)
+
+	if current_user:
+		user = current_user
 
 	frappe.local.login_manager.user = user
 	frappe.local.login_manager.post_login()
@@ -249,6 +263,13 @@ def update_oauth_user(user, data, provider):
 
 	else:
 		user = frappe.get_doc("User", user)
+
+		if user.email != get_email(data):
+			user.email = get_email(data)
+			user.save(ignore_permissions=True)
+			rename_doc('User', user.name, user.email, ignore_permissions=True)
+			user.name = user.email
+
 		if not user.enabled:
 			frappe.respond_as_web_page(_('Not Allowed'), _('User {0} is disabled').format(user.email))
 			return False

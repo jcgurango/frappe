@@ -2,6 +2,7 @@
 # License: MIT. See LICENSE
 from bs4 import BeautifulSoup
 import frappe
+from frappe.model.rename_doc import rename_doc
 import frappe.share
 import frappe.defaults
 import frappe.permissions
@@ -432,7 +433,7 @@ class User(Document):
 					(tab, field, '%s', field, '%s'), (new_name, old_name))
 
 		if frappe.db.exists("Notification Settings", old_name):
-			frappe.rename_doc("Notification Settings", old_name, new_name, force=True, show_alert=False)
+			rename_doc("Notification Settings", old_name, new_name, force=True, show_alert=False, ignore_permissions=True)
 
 		# set email
 		frappe.db.update("User", new_name, "email", new_name)
