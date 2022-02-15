@@ -47,10 +47,10 @@
 	<script>{{ script }}</script>
 	{%- endif -%}
 
-	{%- for script in page_builder_scripts -%}
-	<script>{{ script }}</script>
-	{%- endfor -%}
 	{%- for script in page_builder_script_srcs -%}
 	{{ script }}
+	{%- endfor -%}
+	{%- for script in page_builder_scripts -%}
+	<script>{{ script }}</script>
 	{%- endfor -%}
 {% endblock %}
