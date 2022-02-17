@@ -182,6 +182,7 @@ def login_oauth_user(data=None, provider=None, state=None, email_id=None, key=No
 
 	current_user = None
 	user = get_email(data)
+	print(data)
 
 	# Find an exising user with this social login
 	if data.get('id') or data.get('sub'):
