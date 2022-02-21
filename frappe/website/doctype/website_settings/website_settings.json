@@ -15,6 +15,7 @@
   "home_page",
   "cb4",
   "title_prefix",
+  "title_suffix",
   "section_break_6",
   "website_theme",
   "website_theme_image",
@@ -91,6 +92,13 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Title Prefix"
+  },
+  {
+   "description": "Show title in browser window as \"title - Suffix\"",
+   "fieldname": "title_suffix",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title Suffix"
   },
   {
    "fieldname": "section_break_6",

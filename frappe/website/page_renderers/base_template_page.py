@@ -44,6 +44,10 @@ class BaseTemplatePage(BaseRenderer):
 			and not self.context.title.startswith(self.context.title_prefix)):
 			self.context.title = '{0} - {1}'.format(self.context.title_prefix, self.context.title)
 
+		if (self.context.title_suffix and self.context.title
+			and not self.context.title.endswith(self.context.title_suffix)):
+			self.context.title = '{0} - {1}'.format(self.context.title, self.context.title_suffix)
+
 	def set_missing_values(self):
 		# set using frappe.respond_as_web_page
 		if hasattr(frappe.local, 'response') and frappe.local.response.get('context'):

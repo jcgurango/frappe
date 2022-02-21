@@ -114,7 +114,7 @@ class WebsiteTheme(Document):
 		for app, values in apps.items():
 			out.append({
 				'name': app,
-				'title': values['title']
+				'title': 'Test123'
 			})
 		return out
 
