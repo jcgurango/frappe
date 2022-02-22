@@ -298,8 +298,8 @@
   {
    "default": "0",
    "fieldname": "default_import_order",
-   "fieldtype": "Check",
-   "label": "Use Field Order as Default (in Data Import Tool)",
+   "fieldtype": "Data",
+   "label": "Default Import Order for Data Import Tool",
    "depends_on": "eval:doc.allow_import"
   },
   {

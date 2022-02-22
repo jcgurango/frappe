@@ -1129,11 +1129,19 @@ def get_df_for_column_header(doctype, header, index):
 		meta = frappe.get_meta(doctype)
 
 		if meta.default_import_order:
-			if index == 0:
-				header = get_id_field(doctype)
-			else:
-				if (index - 1) < len(meta.fields):
-					return meta.fields[index - 1]
+			import_order_fields = meta.default_import_order.split(',')
+
+			if index < len(import_order_fields):
+				for field in meta.fields:
+					if field.fieldname in import_order_fields:
+						idx = import_order_fields.index(field.fieldname)
+						import_order_fields[idx] = field
+				
+				if 'name' in import_order_fields:
+					idx = import_order_fields.index('name')
+					import_order_fields[idx] = get_id_field(doctype)
+
+				return import_order_fields[index]
 
 	return header
 

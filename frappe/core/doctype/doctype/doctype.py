@@ -936,6 +936,24 @@ def validate_fields(meta):
 				(fieldname not in fieldname_list):
 				frappe.throw(_("Search field {0} is not valid").format(fieldname))
 
+	def check_default_import_order_fields(meta, fields):
+		"""Throw exception if `default_import_order` don't contain valid fields."""
+		if not meta.default_import_order:
+			return
+
+		# No value fields should not be included in search field
+		default_import_order = [field.strip() for field in (meta.default_import_order or "").split(",")]
+		fieldtype_mapper = { field.fieldname: field.fieldtype \
+			for field in filter(lambda field: field.fieldname in default_import_order, fields) }
+
+		for fieldname in default_import_order:
+			fieldname = fieldname.strip()
+			if fieldname != 'name' and (
+					(fieldtype_mapper.get(fieldname) in no_value_fields) or \
+					(fieldname not in fieldname_list)
+				):
+				frappe.throw(_("Search field {0} is not valid").format(fieldname))
+
 	def check_title_field(meta):
 		"""Throw exception if `title_field` isn't a valid fieldname."""
 		if not meta.get("title_field"):
@@ -1116,6 +1134,7 @@ def validate_fields(meta):
 
 	check_fold(fields)
 	check_search_fields(meta, fields)
+	check_default_import_order_fields(meta, fields)
 	check_title_field(meta)
 	check_timeline_field(meta)
 	check_is_published_field(meta)
