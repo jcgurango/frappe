@@ -1139,7 +1139,9 @@ def get_df_for_column_header(doctype, header, index):
 				
 				if 'name' in import_order_fields:
 					idx = import_order_fields.index('name')
-					import_order_fields[idx] = get_id_field(doctype)
+					id_field = get_id_field(doctype)
+					id_field['parent'] = doctype
+					import_order_fields[idx] = id_field
 
 				return import_order_fields[index]
 
@@ -1156,7 +1158,7 @@ def get_id_field(doctype):
 
 	meta = frappe.get_meta(doctype)
 
-	return frappe._dict({"label": meta.name_label or "ID", "fieldname": "name", "fieldtype": "Data"})
+	return frappe._dict({"label": "ID", "fieldname": "name", "fieldtype": "Data"})
 
 
 def get_autoname_field(doctype):
