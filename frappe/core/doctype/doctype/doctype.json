@@ -42,6 +42,7 @@
   "hide_toolbar",
   "allow_copy",
   "allow_import",
+  "default_import_order",
   "allow_events_in_timeline",
   "allow_auto_repeat",
   "view_settings",
@@ -293,6 +294,13 @@
    "fieldname": "allow_import",
    "fieldtype": "Check",
    "label": "Allow Import (via Data Import Tool)"
+  },
+  {
+   "default": "0",
+   "fieldname": "default_import_order",
+   "fieldtype": "Check",
+   "label": "Use Field Order as Default (in Data Import Tool)",
+   "depends_on": "eval:doc.allow_import"
   },
   {
    "default": "0",

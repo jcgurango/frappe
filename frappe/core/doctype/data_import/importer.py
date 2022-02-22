@@ -502,12 +502,12 @@ class ImportFile:
 
 	def read_content(self, content, extension):
 		error_title = _("Template Error")
-		if extension not in ("csv", "xlsx", "xls"):
+		if extension not in ("txt", "csv", "xlsx", "xls"):
 			frappe.throw(
 				_("Import template should be of type .csv, .xlsx or .xls"), title=error_title
 			)
 
-		if extension == "csv":
+		if extension == "csv" or extension == "txt":
 			data = read_csv_content(content)
 		elif extension == "xlsx":
 			data = read_xlsx_file_from_attached_file(fcontent=content)
@@ -789,7 +789,7 @@ class Column:
 		skip_import = False
 
 		if self.map_to_field and self.map_to_field != "Don't Import":
-			df = get_df_for_column_header(self.doctype, self.map_to_field)
+			df = get_df_for_column_header(self.doctype, self.map_to_field, self.index)
 			if df:
 				self.warnings.append(
 					{
@@ -809,7 +809,7 @@ class Column:
 					}
 				)
 		else:
-			df = get_df_for_column_header(self.doctype, header_title)
+			df = get_df_for_column_header(self.doctype, header_title, self.index)
 			# df = df_by_labels_and_fieldnames.get(header_title)
 
 		if not df:
@@ -1115,14 +1115,27 @@ def build_fields_dict_for_column_matching(parent_doctype):
 	return out
 
 
-def get_df_for_column_header(doctype, header):
+def get_df_for_column_header(doctype, header, index):
 	def build_fields_dict_for_doctype():
 		return build_fields_dict_for_column_matching(doctype)
 
 	df_by_labels_and_fieldname = frappe.cache().hget(
 		"data_import_column_header_map", doctype, generator=build_fields_dict_for_doctype
 	)
-	return df_by_labels_and_fieldname.get(header)
+
+	header = df_by_labels_and_fieldname.get(header)
+
+	if not header:
+		meta = frappe.get_meta(doctype)
+
+		if meta.default_import_order:
+			if index == 0:
+				header = get_id_field(doctype)
+			else:
+				if (index - 1) < len(meta.fields):
+					return meta.fields[index - 1]
+
+	return header
 
 
 # utilities
@@ -1132,7 +1145,10 @@ def get_id_field(doctype):
 	autoname_field = get_autoname_field(doctype)
 	if autoname_field:
 		return autoname_field
-	return frappe._dict({"label": "ID", "fieldname": "name", "fieldtype": "Data"})
+
+	meta = frappe.get_meta(doctype)
+
+	return frappe._dict({"label": meta.name_label or "ID", "fieldname": "name", "fieldtype": "Data"})
 
 
 def get_autoname_field(doctype):

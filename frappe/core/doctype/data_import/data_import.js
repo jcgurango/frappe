@@ -64,7 +64,7 @@ frappe.ui.form.on('Data Import', {
 
 		frm.get_field('import_file').df.options = {
 			restrictions: {
-				allowed_file_types: ['.csv', '.xls', '.xlsx']
+				allowed_file_types: ['.csv', '.txt', '.xls', '.xlsx']
 			}
 		};
 
