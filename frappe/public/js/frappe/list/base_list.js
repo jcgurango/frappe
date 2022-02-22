@@ -720,7 +720,7 @@ class FilterArea {
 		let fields = this.list_view.settings.hide_name_column ? [] : [
 			{
 				fieldtype: "Data",
-				label: "Name",
+				label: this.list_view.meta.name_label || "Name",
 				condition: "like",
 				fieldname: "name",
 				onchange: () => this.refresh_list_view(),

@@ -152,7 +152,7 @@ frappe.ui.form.Toolbar = class Toolbar {
 			// check if docname is updatable
 			if (me.can_rename()) {
 				fields.push(...[{
-					label: __("New Name"),
+					label: __("New " + (me.frm.meta.name_field || "Name")),
 					fieldname: "name",
 					fieldtype: "Data",
 					reqd: 1,
