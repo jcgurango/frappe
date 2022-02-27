@@ -938,7 +938,7 @@ def validate_fields(meta):
 
 	def check_default_import_order_fields(meta, fields):
 		"""Throw exception if `default_import_order` don't contain valid fields."""
-		if not meta.default_import_order:
+		if not meta.default_import_order or meta.default_import_order == '0':
 			return
 
 		# No value fields should not be included in search field
@@ -952,7 +952,7 @@ def validate_fields(meta):
 					(fieldtype_mapper.get(fieldname) in no_value_fields) or \
 					(fieldname not in fieldname_list)
 				):
-				frappe.throw(_("Search field {0} is not valid").format(fieldname))
+				frappe.throw(_("Default import field {0} is not valid").format(fieldname))
 
 	def check_title_field(meta):
 		"""Throw exception if `title_field` isn't a valid fieldname."""

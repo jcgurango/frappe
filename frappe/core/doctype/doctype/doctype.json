@@ -296,7 +296,6 @@
    "label": "Allow Import (via Data Import Tool)"
   },
   {
-   "default": "0",
    "fieldname": "default_import_order",
    "fieldtype": "Data",
    "label": "Default Import Order for Data Import Tool",
