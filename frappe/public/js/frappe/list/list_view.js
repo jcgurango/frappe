@@ -1612,6 +1612,11 @@ frappe.views.ListView = class ListView extends frappe.views.BaseList {
 				standard: true,
 			});
 		}
+
+		if (this.settings && this.settings.get_additional_menu_items) {
+			items.push(...this.settings.get_additional_menu_items(this));
+		}
+
 		return items;
 	}
 
