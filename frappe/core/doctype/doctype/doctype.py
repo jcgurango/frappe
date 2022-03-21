@@ -24,6 +24,7 @@ from frappe.model.meta import Meta
 from frappe.desk.utils import validate_route_conflict
 from frappe.website.utils import clear_cache
 from frappe.query_builder.functions import Concat
+from frappe.desk.form.save import savedocs
 
 class InvalidFieldNameError(frappe.ValidationError): pass
 class UniqueFieldnameError(frappe.ValidationError): pass
@@ -711,6 +712,22 @@ class DocType(Document):
 			frappe.throw(_("DocType's name should start with a letter and it can only consist of letters, numbers, spaces and underscores"), frappe.NameError)
 
 		validate_route_conflict(self.doctype, self.name)
+
+@frappe.whitelist()
+def pull_custom_fields(doc):
+	doc = json.loads(doc)
+
+	custom_fields = frappe.db.get_all('Custom Field', filters={
+		'dt': doc.get('name')
+	}, fields='*')
+
+	for custom_field in custom_fields:
+		frappe.db.delete('Custom Field', custom_field['name'])
+		custom_field['name'] = None
+		doc.get('fields').append(custom_field)
+
+	savedocs(json.dumps(doc, default=str), 'Save')
+	return doc
 
 def validate_series(dt, autoname=None, name=None):
 	"""Validate if `autoname` property is correctly set."""

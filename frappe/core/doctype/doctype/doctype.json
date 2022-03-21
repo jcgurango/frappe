@@ -1,8 +1,15 @@
 {
- "actions": [],
+ "actions": [
+  {
+   "action": "frappe.core.doctype.doctype.doctype.pull_custom_fields",
+   "action_type": "Server Action",
+   "label": "Pull Custom Fields"
+  }
+ ],
  "allow_rename": 1,
  "autoname": "Prompt",
- "creation": "2013-02-18 13:36:19",
+ "creation": "2022-02-28 00:55:34.782029",
+ "default_import_order": "0",
  "description": "DocType is a Table / Form in the application.",
  "doctype": "DocType",
  "document_type": "Document",
@@ -296,10 +303,10 @@
    "label": "Allow Import (via Data Import Tool)"
   },
   {
+   "depends_on": "eval:doc.allow_import",
    "fieldname": "default_import_order",
    "fieldtype": "Data",
-   "label": "Default Import Order for Data Import Tool",
-   "depends_on": "eval:doc.allow_import"
+   "label": "Default Import Order for Data Import Tool"
   },
   {
    "default": "0",
@@ -677,7 +684,7 @@
    "link_fieldname": "reference_doctype"
   }
  ],
- "modified": "2021-12-09 14:53:10.717788",
+ "modified": "2022-03-22 00:17:45.999348",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "DocType",
@@ -710,5 +717,6 @@
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }
