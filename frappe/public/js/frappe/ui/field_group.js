@@ -146,7 +146,12 @@ frappe.ui.FieldGroup = class FieldGroup extends frappe.ui.form.Layout {
 		let promises = [];
 		for(var key in dict) {
 			if(this.fields_dict[key]) {
-				promises.push(this.set_value(key, dict[key]));
+				if (this.fields_dict[key].df.fieldtype === 'Table' && !this.fields_dict[key].frm) {
+					this.fields_dict[key].df.data = dict[key];
+					promises.push(this.fields_dict[key].refresh());
+				} else {
+					promises.push(this.set_value(key, dict[key]));
+				}
 			}
 		}
 

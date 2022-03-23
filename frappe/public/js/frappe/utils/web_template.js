@@ -1,9 +1,23 @@
 function open_web_template_values_editor(template, current_values = {}) {
 	return new Promise(resolve => {
-		frappe.model.with_doc("Web Template", template).then((doc) => {
+		frappe.model.with_doc("Web Template", template).then(async (doc) => {
+			const fields = get_fields(doc);
+
+			// Load table field doctype fields
+			await Promise.all(
+				fields
+					.filter(({ fieldtype }) => fieldtype === 'Table')
+					.map((field) => new Promise((resolve) => {
+						frappe.model.with_doctype(field.options, () => {
+							field.fields = frappe.meta.get_docfields('Quiz Question');
+							resolve();
+						});
+					}))
+			);
+
 			let d = new frappe.ui.Dialog({
 				title: __("Edit Values"),
-				fields: get_fields(doc),
+				fields,
 				primary_action(values) {
 					d.hide();
 					resolve(values);
