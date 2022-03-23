@@ -17,6 +17,15 @@
 {% block page_content %}
 {%- if content_type == 'Page Builder' -%}
 	{{ page_builder_html }}
+	{% if enable_comments -%}
+	<section>
+		<div class="container">
+			<hr class="my-5">
+			<h5>Discuss</h5>
+			{% include 'templates/includes/comments/comments.html' %}
+			{%- endif %}
+		</div>
+	</section>
 {%- else -%}
 <div class="webpage-content">
 	{% include "templates/includes/slideshow.html" %}

@@ -12,7 +12,7 @@
 
 	{% if not is_communication %}
 		<div class="add-comment-section mb-5">
-			<div class="comment-form-wrapper">
+			<div class="comment-form-wrapper" style="display: none;">
 				<div id="comment-form">
 					<form class="new-comment">
 						<fieldset class="new-comment-fields">
@@ -62,11 +62,13 @@
 		let user_id = "";
 
 		let update_timeline_line_length = function(direction, size) {
-			if (direction == 'top') {
-				$('.blog-container')[0].style.setProperty('--comment-timeline-top', size);
-			} else {
-				let comment_timeline_bottom = $('.comment-list .comment-row:last-child').height() - 10;
-				$('.blog-container')[0].style.setProperty('--comment-timeline-bottom', comment_timeline_bottom +'px');
+			if ($('.blog-container').length) {
+				if (direction == 'top') {
+					$('.blog-container')[0].style.setProperty('--comment-timeline-top', size);
+				} else {
+					let comment_timeline_bottom = $('.comment-list .comment-row:last-child').height() - 10;
+					$('.blog-container')[0].style.setProperty('--comment-timeline-bottom', comment_timeline_bottom +'px');
+				}
 			}
 		}
 
