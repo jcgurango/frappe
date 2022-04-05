@@ -230,7 +230,7 @@ $.extend(frappe.perm, {
 		}
 		if (explain) console.log("By Read Only:" + status);
 
-		if (status === "Write" && df.set_only_once && !doc.__islocal) {
+		if (status === "Write" && df.set_only_once && (cint(df.ignore_empty_for_set_once) ? doc[df.fieldname] : !doc.__islocal)) {
 			status = "Read";
 		}
 		if (explain) console.log("By Set Only Once:" + status);

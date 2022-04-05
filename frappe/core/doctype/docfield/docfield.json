@@ -58,6 +58,7 @@
   "unique",
   "no_copy",
   "set_only_once",
+  "ignore_empty_for_set_once",
   "remember_last_selected_value",
   "column_break_38",
   "mandatory_depends_on",
@@ -288,6 +289,14 @@
    "fieldname": "set_only_once",
    "fieldtype": "Check",
    "label": "Set only once"
+  },
+  {
+   "default": "0",
+   "fieldname": "ignore_empty_for_set_once",
+   "fieldtype": "Check",
+   "label": "Ignore empty for \"Set only once\"",
+   "display_depends_on": "eval:cint(doc.set_only_once)",
+   "description": "Allows a value to still be set when \"Set only once\" is selected if the set value is empty."
   },
   {
    "default": "0",
