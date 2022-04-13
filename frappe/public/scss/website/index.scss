@@ -7,7 +7,7 @@
 @import "../common/alert";
 @import 'base';
 @import "../common/flex";
-@import "../common/buttons";
+@import "overrideable:../common/buttons";
 @import "../common/modal";
 @import "../desk/toast";
 @import "../common/css_variables.scss";

@@ -1,5 +1,6 @@
 let path = require("path");
-let { get_app_path, app_list } = require("./utils");
+let fs = require("fs");
+let { get_app_path, app_list, apps_path } = require("./utils");
 
 let node_modules_path = path.resolve(
 	get_app_path("frappe"),
@@ -12,7 +13,20 @@ let app_paths = app_list
 
 module.exports = {
 	includePaths: [node_modules_path, ...app_paths],
-	importer: function(url) {
+	importer: function(url, prev) {
+		if (url.startsWith('overrideable:')) {
+			url = url.slice(13);
+			const fullPath = path.resolve(path.dirname(prev), url).slice(apps_path.length);
+
+			for (let i = 0; i < app_paths.length; i++) {
+				const app_path = app_paths[i];
+
+				if (fs.existsSync(path.join(app_path, 'overrides', fullPath + '.css')) || fs.existsSync(path.join(app_path, 'overrides', fullPath + '.scss'))) {
+					url = path.join(app_path, 'overrides', fullPath);
+				}
+			}
+		}
+
 		if (url.startsWith("~")) {
 			// strip ~ so that it can resolve from node_modules
 			url = url.slice(1);
