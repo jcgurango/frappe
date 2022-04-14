@@ -2,6 +2,7 @@
 const path = require("path");
 const fs = require("fs");
 const glob = require("fast-glob");
+const sass_options = require("./sass_options");
 
 module.exports = {
 	name: 'build_cleanup',
@@ -9,6 +10,7 @@ module.exports = {
 		build.onEnd(result => {
 			if (result.errors.length) return;
 			clean_dist_files(Object.keys(result.metafile.outputs));
+			sass_options.cleanup();
 		});
 	},
 };

@@ -1,5 +1,5 @@
 @import '../common/quill';
-@import 'variables';
+@import 'overrideable:variables';
 @import '~bootstrap/scss/bootstrap';
 @import "../common/mixins";
 @import "../common/global";
