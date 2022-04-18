@@ -2,6 +2,7 @@
 // MIT License. See license.txt
 
 import deep_equal from "fast-deep-equal";
+import DataTable from "frappe-datatable";
 
 frappe.provide("frappe.utils");
 
@@ -1183,8 +1184,41 @@ Object.assign(frappe.utils, {
 			}
 		}
 
+		if (chart_args.type === 'heading') {
+			return new frappe.HeadingsChart(wrapper, chart_args);
+		}
+
+		if (chart_args.type === 'table') {
+			const dataTable = new DataTable(wrapper, {
+				columns: frappe.views.QueryReport.prototype.prepare_columns.call({
+					report_settings: { },
+				}, custom_options.data.columns),
+				data: custom_options.data.result,
+				inlineFilters: true,
+				language: frappe.boot.lang,
+				translations: frappe.utils.datatable.get_translations(),
+				layout: 'fixed',
+				cellHeight: 33,
+				showTotalRow: custom_options.data.add_total_row,
+				direction: frappe.utils.is_rtl() ? 'rtl' : 'ltr',
+				hooks: {
+					columnTotal: frappe.utils.report_column_total
+				}
+			});
+
+			return {
+				update(data) {
+					dataTable.refresh(data.result, frappe.views.QueryReport.prototype.prepare_columns.call({
+						report_settings: { },
+					}, data.columns));
+				}
+			};
+		}
+
 		return new frappe.Chart(wrapper, chart_args);
 	},
+
+	
 
 	generate_route(item) {
 		const type = item.type.toLowerCase();

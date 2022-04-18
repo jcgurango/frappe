@@ -987,7 +987,7 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 					fieldname: 'chart_type',
 					label: 'Type of Chart',
 					fieldtype: 'Select',
-					options: ['Bar', 'Line', 'Percentage', 'Pie', 'Donut'],
+					options: ['Bar', 'Line', 'Percentage', 'Pie', 'Donut', 'Heading', 'Table'],
 					default: me.chart_fields? me.chart_fields.chart_type: 'Bar',
 				},
 				{

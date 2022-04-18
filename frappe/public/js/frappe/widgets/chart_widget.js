@@ -209,7 +209,10 @@ export default class ChartWidget extends Widget {
 			if (this.chart_doc.chart_type == "Report") {
 				this.report_result = data;
 				this.summary = data.report_summary;
-				data = this.get_report_chart_data(data);
+
+				if (this.chart_doc.type !== 'Table') {
+					data = this.get_report_chart_data(data);
+				}
 			}
 
 			this.update_chart_object();
@@ -530,7 +533,7 @@ export default class ChartWidget extends Widget {
 	}
 
 	render() {
-		if (!this.data || !this.data.labels || !Object.keys(this.data).length) {
+		if (!this.data || (this.chart_doc.type === 'Table' ? (!this.data.result || !this.data.result.length) : !this.data.labels) || !Object.keys(this.data).length) {
 			this.chart_wrapper.hide();
 			this.loading.hide();
 			this.$summary && this.$summary.hide();
@@ -562,7 +565,9 @@ export default class ChartWidget extends Widget {
 			Percentage: "percentage",
 			Pie: "pie",
 			Donut: "donut",
-			Heatmap: "heatmap"
+			Heatmap: "heatmap",
+			Heading: "heading",
+			Table: "table",
 		};
 
 		let chart_args = {

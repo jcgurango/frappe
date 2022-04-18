@@ -123,6 +123,8 @@ frappe.form.formatters = {
 			if (doc && doctype !== doc.doctype) {
 				value = frappe.form.link_formatters[doctype](value, doc, docfield);
 			}
+		} else if (doc && doc[docfield.fieldname + '__name']) {
+			value = doc && doc[docfield.fieldname + '__name'];
 		}
 
 		if(!value) {
