@@ -102,3 +102,22 @@ class ConstantColumn(Term):
 					quote_char=quote_char,
 					**kwargs
 				)
+
+class CustomSqlColumn(Term):
+	alias = None
+
+	def __init__(self, value: str) -> None:
+		"""[ Returns a pseudo column with a constant value in all the rows]
+
+		Args:
+			value (str): [ Value of the column ]
+		"""
+		self.value = value
+
+	def get_sql(self, quote_char: Optional[str] = None, **kwargs: Any) -> str:
+		return format_alias_sql(
+					self.value,
+					self.alias or self.value,
+					quote_char=quote_char,
+					**kwargs
+				)
