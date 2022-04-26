@@ -11,7 +11,7 @@ export default class LinksWidget extends Widget {
 	get_config() {
 		return {
 			name: this.name,
-			links: JSON.stringify(this.links),
+			links: this.links,
 			link_count: this.links.length,
 			label: this.label,
 			hidden: this.hidden,

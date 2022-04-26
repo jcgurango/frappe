@@ -160,9 +160,9 @@ class CardDialog extends WidgetDialog {
 				fieldtype: 'Table',
 				label: __('Card Links'),
 				editable_grid: 1,
-				data: me.values ? JSON.parse(me.values.links) : [],
+				data: me.values ? me.values.links : [],
 				get_data: () => {
-					return me.values ? JSON.parse(me.values.links) : [];
+					return me.values ? me.values.links : [];
 				},
 				fields: [
 					{

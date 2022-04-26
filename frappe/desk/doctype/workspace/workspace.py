@@ -67,7 +67,7 @@ class Workspace(Document):
 	def build_links_table_from_card(self, config):
 
 		for idx, card in enumerate(config):
-			links = loads(card.get('links'))
+			links = card.get('links')
 
 			# remove duplicate before adding
 			for idx, link in enumerate(self.links):
