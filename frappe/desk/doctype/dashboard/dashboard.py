@@ -1,13 +1,16 @@
 # Copyright (c) 2022, Frappe Technologies and contributors
 # License: MIT. See LICENSE
 
+from genericpath import exists
 import json
+import os
 
 import frappe
-from frappe import _
+from frappe import _, get_module_path
 from frappe.config import get_modules_from_all_apps_for_user
 from frappe.model.document import Document
 from frappe.modules.export_file import export_to_files
+from frappe.modules.utils import scrub_dt_dn
 from frappe.query_builder import DocType
 
 
@@ -52,6 +55,19 @@ class Dashboard(Document):
 			except ValueError as error:
 				frappe.throw(_("Invalid json added in the custom options: {0}").format(error))
 
+	def get_js(self):
+		module = self.module or "Desk"
+		module_path = get_module_path(module)
+		doctype, docname = scrub_dt_dn(f"{self.module} Dashboard", self.name)
+		js_path = os.path.join(module_path, doctype, docname, docname + '.js')
+
+		if exists(js_path):
+			with open(js_path, "r") as js_file:
+				js = js_file.read()
+
+			return js
+
+		return None
 
 def get_permission_query_conditions(user):
 	if not user:
@@ -93,6 +109,16 @@ def get_permitted_cards(dashboard_name):
 		if frappe.has_permission('Number Card', doc=card.card):
 			permitted_cards.append(card)
 	return permitted_cards
+
+@frappe.whitelist()
+def get_dashboard_js(dashboard_name):
+	js = []
+	dashboard = frappe.get_doc('Dashboard', dashboard_name)
+
+	if dashboard.get_js():
+		js.append(dashboard.get_js())
+
+	return js
 
 def get_non_standard_charts_in_dashboard(dashboard):
 	non_standard_charts = [doc.name for doc in frappe.get_list('Dashboard Chart', {'is_standard': 0})]

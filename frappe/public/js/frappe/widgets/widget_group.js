@@ -71,8 +71,20 @@ export default class WidgetGroup {
 	make_widgets() {
 		this.body.empty();
 		this.widgets.forEach((widget) => {
-			this.add_widget(widget);
+			if (this.on_creating_widget) {
+				this.on_creating_widget(this, widget);
+			}
+
+			const createdWidget = this.add_widget(widget);
+			
+			if (this.on_widget_created) {
+				this.on_widget_created(this, createdWidget);
+			}
 		});
+
+		if (this.on_widgets_created) {
+			this.on_widgets_created(this);
+		}
 	}
 
 	add_widget(widget) {

@@ -3,7 +3,7 @@
 
 frappe.provide('frappe.dashboards');
 frappe.provide('frappe.dashboards.chart_sources');
-
+frappe.provide('frappe.dashboard_settings');
 
 frappe.pages['dashboard-view'].on_page_load = function(wrapper) {
 	frappe.ui.make_app_page({
@@ -77,9 +77,33 @@ class Dashboard {
 
 	refresh() {
 		frappe.run_serially([
+			() => this.get_dashboard_js(),
 			() => this.render_cards(),
 			() => this.render_charts()
 		]);
+	}
+
+	get_dashboard_js() {
+		return this.get_permitted_items('frappe.desk.doctype.dashboard.dashboard.get_dashboard_js')
+			.then(items => {
+				items.forEach((item) => {
+					eval(item);
+				});
+
+				this.custom_config = { };
+
+				if (frappe.dashboard_settings[this.dashboard_name]) {
+					this.custom_config = { ...frappe.dashboard_settings[this.dashboard_name] };
+				}
+			});
+	}
+
+	bind_handlers({ on_creating_widget = (widget) => { }, on_widget_created = (widget) => { }, on_widgets_created = (widget_group) => { } } = { }) {
+		return {
+			on_creating_widget: on_creating_widget.bind(null, this),
+			on_widget_created: on_widget_created.bind(null, this),
+			on_widgets_created: on_widgets_created.bind(null, this),
+		};
 	}
 
 	render_charts() {
@@ -115,6 +139,7 @@ class Dashboard {
 						allow_edit: false,
 					},
 					widgets: this.charts,
+					...this.bind_handlers(this.custom_config.chart_group_settings),
 				});
 			})
 		});
@@ -147,6 +172,7 @@ class Dashboard {
 					allow_edit: false,
 				},
 				widgets: this.number_cards,
+				...this.bind_handlers(this.custom_config.card_group_settings),
 			});
 		});
 	}
