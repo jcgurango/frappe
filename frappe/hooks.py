@@ -194,6 +194,10 @@ doc_events = {
 	"Page": {
 		"after_insert": "frappe.cache_manager.build_domain_restriced_page_cache",
 		"after_save": "frappe.cache_manager.build_domain_restriced_page_cache",
+	},
+	"User": {
+		"after_insert": "frappe.lark.create_lark_user",
+		"on_trash": "frappe.lark.delete_lark_user"
 	}
 }
 
