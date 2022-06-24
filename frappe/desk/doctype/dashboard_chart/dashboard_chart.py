@@ -323,7 +323,7 @@ class DashboardChart(Document):
 
 
 	def validate(self):
-		if not frappe.conf.developer_mode and self.is_standard:
+		if not frappe.conf.developer_mode and self.is_standard and not self.flags.in_import:
 			frappe.throw(_("Cannot edit Standard charts"))
 		if self.chart_type != 'Custom' and self.chart_type != 'Report':
 			self.check_required_field()
