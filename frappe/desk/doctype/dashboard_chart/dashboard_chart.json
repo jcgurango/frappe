@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:chart_name",
- "creation": "2022-04-19 00:25:13.339782",
+ "creation": "2022-06-25 02:41:57.153931",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -38,6 +38,7 @@
   "dynamic_filters_section",
   "dynamic_filters_json",
   "chart_options_section",
+  "ignore_user_saved_filter",
   "custom_options",
   "column_break_2",
   "color",
@@ -277,10 +278,16 @@
    "fieldtype": "Link",
    "label": "Parent Document Type",
    "options": "DocType"
+  },
+  {
+   "default": "0",
+   "fieldname": "ignore_user_saved_filter",
+   "fieldtype": "Check",
+   "label": "Ignore User Saved Filter"
   }
  ],
  "links": [],
- "modified": "2022-04-19 01:32:27.134750",
+ "modified": "2022-06-25 22:25:53.055889",
  "modified_by": "Administrator",
  "module": "Desk",
  "name": "Dashboard Chart",
