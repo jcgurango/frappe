@@ -33,7 +33,7 @@ class Dashboard(Document):
 			)
 
 	def validate(self):
-		if not frappe.conf.developer_mode and self.is_standard and not self.flags.in_import:
+		if not frappe.conf.developer_mode and self.is_standard and not self.flags.in_import and not self.flags.in_patch:
 			frappe.throw(_("Cannot edit Standard Dashboards"))
 
 		if self.is_standard:
