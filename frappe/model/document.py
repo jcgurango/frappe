@@ -469,7 +469,10 @@ class Document(BaseDocument):
 
 	def set_user_and_timestamp(self):
 		self._original_modified = self.modified
-		self.modified = now()
+
+		if not self.flags.get('ignore_modified'):
+			self.modified = now()
+
 		self.modified_by = frappe.session.user
 
 		# We'd probably want the creation and owner to be set via API
@@ -710,7 +713,7 @@ class Document(BaseDocument):
 		`self.check_docstatus_transition`."""
 		conflict = False
 		self._action = "save"
-		if not self.get('__islocal') and not self.meta.get('is_virtual'):
+		if not self.get('__islocal') and not self.meta.get('is_virtual') and not self.flags.get('ignore_modified'):
 			if self.meta.issingle:
 				modified = frappe.db.sql("""select value from tabSingles
 					where doctype=%s and field='modified' for update""", self.doctype)
