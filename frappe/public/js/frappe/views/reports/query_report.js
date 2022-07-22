@@ -478,6 +478,10 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 				f.set_input(df.default);
 			}
 
+			if (df.default_calculation) {
+				f.set_input(frappe.utils.eval(df.default_calculation));
+			}
+
 			if (df.get_query) f.get_query = df.get_query;
 			if (df.on_change) f.on_change = df.on_change;
 
