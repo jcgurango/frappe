@@ -25,6 +25,7 @@ echo "Creating barako user..."
 adduser barako
 usermod -aG sudo barako
 echo "barako ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+echo "export PATH=\$PATH:/home/barako/.local/bin" >> /home/barako/.bashrc
 
 echo '
 echo "Installing node..."
@@ -44,14 +45,15 @@ cd frappe/apps/frappe/
 git remote add origin https://bitbucket.org/denim-apps/frappe
 git fetch origin
 git reset --hard origin/develop
-get branch -u origin/develop
+git branch -u origin/develop
 yarn
 cd ../..
 ./env/bin/pip install -r ./apps/frappe/requirements.txt
 ./env/bin/pip install -e ./apps/frappe/
 echo "Succesfully installed Frappe (SERVIO fork)!"
 echo ""
-echo "Run \"./setup-site.sh\" to set up the first site."
+echo "Run \"./setup-site.sh <domain> [--erpnext]\" to set up the first site."
+echo "For example \"./setup-site.sh erpnext.denimtool.com --erpnext\"."
 ' > /home/barako/install.sh
 chmod a+x /home/barako/install.sh
 
