@@ -83,6 +83,14 @@ sudo certbot --nginx
 ' > /home/barako/setup-site.sh
 chmod a+x /home/barako/setup-site.sh
 
+echo "If you haven't yet set up a swap file for this system, you may want to by running \"./makeswap.sh\""
+
+echo '
+fallocate -l 1G /swapfile && dd if=/dev/zero of=/swapfile bs=1024 count=1048576 && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && (echo "/swapfile swap swap defaults 0 0" >> /etc/fstab) && swapon --show && free -h
+' > ./makeswap.sh
+chmod a+x ./makeswap.sh
+
+echo ""
 echo "To complete the next steps, run \"su - barako\" and, while logged in as the barako user, run \"./install.sh\""
 
 echo "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
