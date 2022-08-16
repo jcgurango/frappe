@@ -40,16 +40,7 @@ npm install -g yarn
 echo "Installing bench/frappe..."
 
 pip3 install frappe-bench
-bench init frappe
-cd frappe/apps/frappe/
-git remote add origin https://bitbucket.org/denim-apps/frappe
-git fetch origin
-git reset --hard origin/develop
-git branch -u origin/develop
-yarn
-cd ../..
-./env/bin/pip install -r ./apps/frappe/requirements.txt
-./env/bin/pip install -e ./apps/frappe/
+bench init --frappe-path https://bitbucket.org/denim-apps/frappe frappe
 echo "Succesfully installed Frappe (SERVIO fork)!"
 echo ""
 echo "Run \"./setup-site.sh <domain> [--erpnext]\" to set up the first site."

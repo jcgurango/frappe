@@ -71,10 +71,6 @@ class UserType(Document):
 			frappe.throw(_("The field {0} is mandatory")
 				.format(frappe.bold(_('Role'))))
 
-		if not frappe.db.get_value('Role', self.role, 'is_custom'):
-			frappe.throw(_("The role {0} should be a custom role.")
-				.format(frappe.bold(get_link_to_form('Role', self.role))))
-
 	def update_users(self):
 		for row in frappe.get_all('User', filters = {'user_type': self.name}):
 			user = frappe.get_cached_doc('User', row.name)
