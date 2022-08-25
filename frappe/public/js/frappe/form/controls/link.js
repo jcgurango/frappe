@@ -467,6 +467,10 @@ frappe.ui.form.ControlLink = class ControlLink extends frappe.ui.form.ControlDat
 			return value;
 		}
 
+		if (!value) {
+			return value;
+		}
+
 		return frappe.xcall("frappe.client.validate_link", {
 			doctype: options,
 			docname: value,

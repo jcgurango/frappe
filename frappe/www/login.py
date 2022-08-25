@@ -38,7 +38,14 @@ def get_context(context):
 	context["disable_signup"] = frappe.utils.cint(frappe.db.get_single_value("Website Settings", "disable_signup"))
 	context["logo"] = (frappe.db.get_single_value('Website Settings', 'app_logo') or
 		frappe.get_hooks("app_logo_url")[-1])
-	context["app_name"] = (frappe.db.get_single_value('Website Settings', 'app_name') or
+	website_name_hook = frappe.get_hooks("website_display_name")
+
+	if len(website_name_hook):
+		website_name_hook = website_name_hook[len(website_name_hook) - 1]
+	else:
+		website_name_hook = ''
+
+	context["app_name"] = (website_name_hook or frappe.db.get_single_value('Website Settings', 'app_name') or
 		frappe.get_system_settings("app_name") or _("Frappe"))
 
 	signup_form_template = frappe.get_hooks("signup_form_template")
