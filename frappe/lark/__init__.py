@@ -53,6 +53,10 @@ def get_lark_settings():
   return settings
 
 def create_lark_user(user, method):
+  if frappe.db.exists('User Social Login', { 'provider': 'lark', 'parent': user.name }):
+    # User is pre-created
+    return
+
   lark_settings = get_lark_settings()
 
   if lark_settings:
