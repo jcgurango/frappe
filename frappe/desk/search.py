@@ -48,20 +48,26 @@ def sanitize_searchfield(searchfield):
 
 # this is called by the Link Field
 @frappe.whitelist()
-def search_link(doctype, txt, query=None, filters=None, page_length=20, searchfield=None, reference_doctype=None, ignore_user_permissions=False):
-	search_widget(doctype, txt.strip(), query, searchfield=searchfield, page_length=page_length, filters=filters, reference_doctype=reference_doctype, ignore_user_permissions=ignore_user_permissions)
+def search_link(doctype, txt, query=None, filters=None, page_length=20, searchfield=None, reference_doctype=None, ignore_user_permissions=False, or_filters=None):
+	search_widget(doctype, txt.strip(), query, searchfield=searchfield, page_length=page_length, filters=filters, reference_doctype=reference_doctype, ignore_user_permissions=ignore_user_permissions, or_filters=or_filters)
 	frappe.response['results'] = build_for_autosuggest(frappe.response["values"])
 	del frappe.response["values"]
 
 # this is called by the search box
 @frappe.whitelist()
 def search_widget(doctype, txt, query=None, searchfield=None, start=0,
-	page_length=20, filters=None, filter_fields=None, as_dict=False, reference_doctype=None, ignore_user_permissions=False):
+	page_length=20, filters=None, filter_fields=None, as_dict=False, reference_doctype=None, ignore_user_permissions=False, or_filters=None):
 
 	start = cint(start)
 
 	if isinstance(filters, str):
 		filters = json.loads(filters)
+
+	if or_filters:
+		if isinstance(or_filters, str):
+			or_filters = json.loads(or_filters)
+	else:
+		or_filters = []
 
 	if searchfield:
 		sanitize_searchfield(searchfield)
@@ -109,8 +115,6 @@ def search_widget(doctype, txt, query=None, searchfield=None, start=0,
 
 			if filters is None:
 				filters = []
-			or_filters = []
-
 
 			# build from doctype
 			if txt:
