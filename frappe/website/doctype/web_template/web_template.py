@@ -116,7 +116,7 @@ class WebTemplate(Document):
 			except ModuleNotFoundError:
 				return None
 
-	def render(self, values=None):
+	def render(self, values=None, block=None, page=None):
 		if not values:
 			values = {}
 		template_module = self.get_module()
@@ -124,7 +124,11 @@ class WebTemplate(Document):
 		values = frappe.parse_json(values)
 
 		if template_module:
-			template_module.on_render(self, values)
+			template_module.on_render({
+				'template': self,
+				'block': block,
+				'page': page,
+			}, values)
 
 		values.update({"values": values})
 		template = self.get_template(self.standard)

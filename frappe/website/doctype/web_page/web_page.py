@@ -118,7 +118,7 @@ class WebPage(WebsiteGenerator):
 	def set_page_blocks(self, context):
 		if self.content_type != 'Page Builder':
 			return
-		out = get_web_blocks_html(self.page_blocks)
+		out = get_web_blocks_html(self.page_blocks, self)
 		context.page_builder_html = out.html
 		context.page_builder_scripts = out.scripts
 		context.page_builder_script_srcs = out.script_srcs
@@ -182,7 +182,7 @@ def check_publish_status():
 					frappe.db.set_value("Web Page", page.name, "published", 1)
 
 
-def get_web_blocks_html(blocks):
+def get_web_blocks_html(blocks, page=None):
 	'''Converts a list of blocks into Raw HTML and extracts out their scripts for deduplication'''
 
 	out = frappe._dict(html='', scripts=[], script_srcs=[], styles=[])
@@ -193,7 +193,7 @@ def get_web_blocks_html(blocks):
 		web_template = frappe.get_cached_doc('Web Template', block.web_template)
 		rendered_html = frappe.render_template('templates/includes/web_block.html', context={
 			'web_block': block,
-			'web_template_html': web_template.render(block.web_template_values),
+			'web_template_html': web_template.render(block.web_template_values, block, page),
 			'web_template_type': web_template.type
 		})
 		html, scripts, script_srcs, styles = extract_script_and_style_tags(rendered_html)
