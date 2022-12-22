@@ -143,6 +143,7 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 			() => this.refresh_report(route_options),
 			() => this.add_chart_buttons_to_toolbar(true),
 			() => this.add_card_button_to_toolbar(true),
+			() => this.add_form_fill_button_to_toolbar(),
 		]);
 	}
 
@@ -168,6 +169,15 @@ frappe.views.QueryReport = class QueryReport extends frappe.views.BaseList {
 		} else {
 			this.create_chart_button && this.create_chart_button.remove();
 			this.add_to_dashboard_button && this.add_to_dashboard_button.remove();
+		}
+	}
+
+	add_form_fill_button_to_toolbar() {
+		if (this.report_doc.form_fill_template) {
+			this.form_fill_button && this.form_fill_button.remove();
+			this.form_fill_button = this.page.add_button(__("Form Fill"), () => {
+				this.open_form_fill_dialog();
+			});
 		}
 	}
 
