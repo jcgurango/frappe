@@ -35,9 +35,10 @@ class LarkSettings(Document):
 			frappe.throw(response.get('msg'))
 
 	def for_tenant(self, tenant_id):
-		additional_tenant = frappe.get_doc('Additional Lark Tenant', tenant_id)
-		self.app_id = additional_tenant.app_id
-		self.app_secret = additional_tenant.app_secret
-		self.public_app = additional_tenant.public_app
+		if tenant_id:
+			additional_tenant = frappe.get_doc('Additional Lark Tenant', tenant_id)
+			self.app_id = additional_tenant.app_id
+			self.app_secret = additional_tenant.app_secret
+			self.public_app = additional_tenant.public_app
 
 		return self
