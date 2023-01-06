@@ -70,8 +70,8 @@ def create_lark_user(user, method):
   lark_settings = get_lark_settings()
 
   if lark_settings:
-    if user.get('tenantid'):
-      lark_settings.for_tenant(user.get('tenantid'))
+    if user.flags.get('tenantid'):
+      lark_settings.for_tenant(user.flags.get('tenantid'))
 
     tenant_access_token = lark_settings.get_tenant_access_token()
     emails = []
@@ -116,6 +116,7 @@ def create_lark_user(user, method):
     user.append('social_logins', {
       'provider': 'lark',
       'userid': lark_user_id,
+      'tenantid': user.flags.get('tenantid'),
     })
     user.save(ignore_permissions=True)
 
