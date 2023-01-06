@@ -1,3 +1,4 @@
+import json
 import frappe
 import requests
 import frappe.utils.oauth
@@ -8,7 +9,13 @@ __version__ = '0.0.1'
 @frappe.whitelist(allow_guest=True)
 def login():
   lark_settings = frappe.get_doc('Lark Settings')
-  redirect_url = frappe.utils.get_url('/api/method/frappe.lark.login_callback')
+  callback_url = '/api/method/frappe.lark.login_callback'
+
+  if frappe.form_dict.get('tenantid'):
+    callback_url += '?tenantid=' + frappe.form_dict.get('tenantid')
+    lark_settings.for_tenant(frappe.form_dict.get('tenantid'))
+
+  redirect_url = frappe.utils.get_url(callback_url)
   redirect_url = urllib.parse.quote_plus(redirect_url)
 
   frappe.local.response['type'] = 'redirect'
@@ -18,6 +25,10 @@ def login():
 @frappe.whitelist(allow_guest=True)
 def login_callback():
   lark_settings = frappe.get_doc('Lark Settings')
+
+  if frappe.form_dict.get('tenantid'):
+    lark_settings.for_tenant(frappe.form_dict.get('tenantid'))
+
   app_access_token = lark_settings.get_app_access_token()
   code = frappe.local.request.args.get('code')
   r = requests.post('https://open.larksuite.com/open-apis/authen/v1/access_token', json={
@@ -31,9 +42,8 @@ def login_callback():
     user = r['data']
 
     if frappe.db.exists('User Social Login', { 'provider': 'lark', 'userid': user['open_id'] }) or lark_settings.allow_new_users:
-      # Fill in sub field for OAuth compliance
-      user['sub'] = user['open_id']
-      user['gender'] = ''
+      if frappe.form_dict.get('tenantid'):
+        user['tenantid'] = frappe.form_dict.get('tenantid')
 
       frappe.utils.oauth.login_oauth_user(user, provider='lark', state={
         'token': user['access_token']
@@ -60,6 +70,9 @@ def create_lark_user(user, method):
   lark_settings = get_lark_settings()
 
   if lark_settings:
+    if user.get('tenantid'):
+      lark_settings.for_tenant(user.get('tenantid'))
+
     tenant_access_token = lark_settings.get_tenant_access_token()
     emails = []
     mobiles = []
@@ -114,6 +127,9 @@ def delete_lark_user(user, method):
       lark_settings = get_lark_settings()
 
       if lark_settings:
+        if login.get('tenantid'):
+          lark_settings.for_tenant(login.get('tenantid'))
+
         tenant_access_token = lark_settings.get_tenant_access_token()
         r = requests.delete('https://open.larksuite.com/open-apis/contact/v3/users/' + login.get('userid'), headers={
           'Authorization': 'Bearer ' + tenant_access_token

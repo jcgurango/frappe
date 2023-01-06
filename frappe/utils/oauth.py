@@ -302,6 +302,10 @@ def update_oauth_user(user, data, provider):
 		save = True
 		user.set_social_login_userid(provider, userid="/".join(data["sub"].split("/")[-2:]))
 
+	elif provider=="lark" and not user.get_social_login_userid(provider):
+		save = True
+		user.set_social_login_userid(provider, userid=data['open_id'], tenantid=data['tenantid'])
+
 	elif not user.get_social_login_userid(provider):
 		save = True
 		user_id_property = frappe.db.get_value("Social Login Key", provider, "user_id_property") or "sub"

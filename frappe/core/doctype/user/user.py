@@ -548,7 +548,7 @@ class User(Document):
 		except:
 			return None
 
-	def set_social_login_userid(self, provider, userid, username=None):
+	def set_social_login_userid(self, provider, userid, username=None, tenantid=None):
 		social_logins = {
 			"provider": provider,
 			"userid": userid
@@ -556,6 +556,9 @@ class User(Document):
 
 		if username:
 			social_logins["username"] = username
+
+		if tenantid:
+			social_logins["tenantid"] = tenantid
 
 		self.append("social_logins", social_logins)
 
