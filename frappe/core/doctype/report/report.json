@@ -2,7 +2,6 @@
  "actions": [],
  "autoname": "field:report_name",
  "creation": "2013-03-09 15:45:57",
- "default_import_order": "0",
  "doctype": "DocType",
  "document_type": "System",
  "engine": "InnoDB",
@@ -19,7 +18,6 @@
   "disabled",
   "disable_prepared_report",
   "prepared_report",
-  "form_fill_template",
   "filters_section",
   "filters",
   "columns_section",
@@ -189,22 +187,15 @@
    "fieldname": "client_code_section",
    "fieldtype": "Section Break",
    "label": "Client Code"
-  },
-  {
-   "fieldname": "form_fill_template",
-   "fieldtype": "Link",
-   "label": "Form Fill Template",
-   "options": "Form Fill Template"
   }
  ],
  "idx": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-20 04:04:37.490267",
+ "modified": "2020-08-17 16:49:28.474274",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "Report",
- "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -251,6 +242,5 @@
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
  "track_changes": 1
 }
