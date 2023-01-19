@@ -72,6 +72,7 @@ frappe.ui.form.on('Form Fill Template', {
 					...regionDefinition,
 					boxes: regionDefinition.boxes.map(({ selected, ...box }) => box),
 				}));
+				frm.region_definition = regionDefinition;
 			}
 
 			editor.find('.name-container').keyup(function() {
@@ -174,6 +175,8 @@ frappe.ui.form.on('Form Fill Template', {
 					} else {
 						editor.find('.name-container').val('');
 					}
+
+					frm.region_definition = regionDefinition;
 				}
 
 				function onBoxClick(e) {

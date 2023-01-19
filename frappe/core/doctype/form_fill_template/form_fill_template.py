@@ -73,15 +73,20 @@ class FormFillTemplate(Document):
 		return saved_bytes
 
 def render_box_text(box, text):
-	bytes = BytesIO(pdfkit.from_string('<style>html, body { padding: 0px; margin: 0px; }</style><div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 29px;">' + html.escape(text) + '</div>', False, {
-		'page-width': box.get('width'),
-		'page-height': box.get('height'),
-		'margin-bottom': '0in',
-		'margin-top': '0in',
-		'margin-left': '0in',
-		'margin-right': '0in',
-		'no-background': '',
-	}))
+	bytes = BytesIO(pdfkit.from_string('<style>html, body { padding: 0px; margin: 0px; }</style><div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 29px;">'
+		+ text.encode('ascii', 'xmlcharrefreplace').decode('ascii')
+		+ '</div>',
+		False,
+		{
+			'page-width': box.get('width'),
+			'page-height': box.get('height'),
+			'margin-bottom': '0in',
+			'margin-top': '0in',
+			'margin-left': '0in',
+			'margin-right': '0in',
+			'no-background': '',
+		})
+	)
 
 	with pikepdf.Pdf.open(bytes) as rendered_text:
 		text_page = pikepdf.Page(rendered_text.pages[0])
