@@ -91,6 +91,9 @@ frappe.ui.form.on('Form Fill Template', {
 				save();
 			});
 
+			frm.save_regions = save;
+			frm.region_definition = regionDefinition;
+
 			function actionButton(text, callback) {
 				return $('<a />').css('padding', '8px').attr('href', '/#').text(text).click(function(e) {
 					e.preventDefault();
@@ -177,6 +180,7 @@ frappe.ui.form.on('Form Fill Template', {
 					}
 
 					frm.region_definition = regionDefinition;
+					frm.region_selection = selection;
 				}
 
 				function onBoxClick(e) {
