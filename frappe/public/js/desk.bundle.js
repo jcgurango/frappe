@@ -83,6 +83,7 @@ import "./frappe/ui/toolbar/search_utils.js";
 import "./frappe/ui/toolbar/about.js";
 import "./frappe/ui/toolbar/navbar.html";
 import "./frappe/ui/toolbar/toolbar.js";
+import "./frappe/ui/toolbar/subscription.js";
 // import "./frappe/ui/toolbar/notifications.js";
 import "./frappe/views/communication.js";
 import "./frappe/views/translation_manager.js";
@@ -96,6 +97,7 @@ import "./frappe/ui/sort_selector.js";
 
 import "./frappe/change_log.html";
 import "./frappe/ui/workspace_loading_skeleton.html";
+import "./frappe/ui/workspace_sidebar_loading_skeleton.html";
 import "./frappe/desk.js";
 import "./frappe/query_string.js";
 
@@ -106,6 +108,4 @@ import "./frappe/utils/dashboard_utils.js";
 import "./frappe/ui/chart.js";
 import "./frappe/ui/datatable.js";
 import "./frappe/ui/driver.js";
-import "./frappe/ui/plyr.js";
-import "./frappe/barcode_scanner/index.js";
 import "./frappe/scanner";

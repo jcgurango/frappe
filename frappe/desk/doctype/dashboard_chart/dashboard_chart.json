@@ -43,7 +43,8 @@
   "column_break_2",
   "color",
   "section_break_10",
-  "last_synced_on"
+  "last_synced_on",
+  "roles"
  ],
  "fields": [
   {
@@ -284,10 +285,16 @@
    "fieldname": "ignore_user_saved_filter",
    "fieldtype": "Check",
    "label": "Ignore User Saved Filter"
+  },
+  {
+   "fieldname": "roles",
+   "fieldtype": "Table",
+   "label": "Roles",
+   "options": "Has Role"
   }
  ],
  "links": [],
- "modified": "2022-06-25 22:25:53.055889",
+ "modified": "2022-07-27 11:09:09.203236",
  "modified_by": "Administrator",
  "module": "Desk",
  "name": "Dashboard Chart",

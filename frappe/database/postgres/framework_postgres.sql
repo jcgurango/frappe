@@ -176,9 +176,6 @@ CREATE TABLE "tabDocType" (
   "modified_by" varchar(255) DEFAULT NULL,
   "owner" varchar(255) DEFAULT NULL,
   "docstatus" smallint NOT NULL DEFAULT 0,
-  "parent" varchar(255) DEFAULT NULL,
-  "parentfield" varchar(255) DEFAULT NULL,
-  "parenttype" varchar(255) DEFAULT NULL,
   "idx" bigint NOT NULL DEFAULT 0,
   "search_fields" varchar(255) DEFAULT NULL,
   "issingle" smallint NOT NULL DEFAULT 0,
@@ -232,7 +229,9 @@ CREATE TABLE "tabDocType" (
   "email_append_to" smallint NOT NULL DEFAULT 0,
   "subject_field" varchar(255) DEFAULT NULL,
   "sender_field" varchar(255) DEFAULT NULL,
+  "show_title_field_in_link" smallint NOT NULL DEFAULT 0,
   "migration_hash" varchar(255) DEFAULT NULL,
+  "translated_doctype" smallint NOT NULL DEFAULT 0,
   PRIMARY KEY ("name")
 ) ;
 
@@ -242,7 +241,7 @@ CREATE TABLE "tabDocType" (
 
 DROP TABLE IF EXISTS "tabSeries";
 CREATE TABLE "tabSeries" (
-  "name" varchar(100) DEFAULT NULL,
+  "name" varchar(100),
   "current" bigint NOT NULL DEFAULT 0,
   PRIMARY KEY ("name")
 ) ;

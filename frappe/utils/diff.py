@@ -1,15 +1,15 @@
 import json
 from difflib import unified_diff
-from typing import List
 
 import frappe
 from frappe.utils import pretty_date
+from frappe.utils.data import cstr
 
 
 @frappe.whitelist()
 def get_version_diff(
-	from_version: str, to_version: str, fieldname: str = "script"
-) -> List[str]:
+	from_version: int | str, to_version: int | str, fieldname: str = "script"
+) -> list[str]:
 
 	before, before_timestamp = _get_value_from_version(from_version, fieldname)
 	after, after_timestamp = _get_value_from_version(to_version, fieldname)
@@ -23,18 +23,16 @@ def get_version_diff(
 	diff = unified_diff(
 		before,
 		after,
-		fromfile=from_version,
-		tofile=to_version,
+		fromfile=cstr(from_version),
+		tofile=cstr(to_version),
 		fromfiledate=before_timestamp,
 		tofiledate=after_timestamp,
 	)
 	return list(diff)
 
 
-def _get_value_from_version(version_name: str, fieldname: str):
-	version = frappe.get_list(
-		"Version", fields=["data", "modified"], filters={"name": version_name}
-	)
+def _get_value_from_version(version_name: int | str, fieldname: str):
+	version = frappe.get_list("Version", fields=["data", "modified"], filters={"name": version_name})
 	if version:
 		data = json.loads(version[0].data)
 		changed_fields = data.get("changed", [])

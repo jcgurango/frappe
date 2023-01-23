@@ -42,13 +42,18 @@
 {% endblock %}
 
 {% block style %}
-<style>
-{{ style or "" }}
-</style>
-
-{%- for style in page_builder_styles -%}
+{%- if style -%}
 <style>{{ style }}</style>
+{%- endif -%}
+
+{%- for web_template, styles in (page_builder_styles or {}).items() -%}
+{%- if styles -%}
+{%- for style in styles -%}
+<style data-web-template="{{ web_template }}">{{ style }}</style>
 {%- endfor -%}
+{%- endif -%}
+{%- endfor -%}
+
 {% endblock %}
 
 {% block script %}
@@ -56,10 +61,19 @@
 	<script>{{ script }}</script>
 	{%- endif -%}
 
-	{%- for script in page_builder_script_srcs -%}
+	{%- for web_template, scripts in (page_builder_scripts or {}).items() -%}
+	{%- if scripts -%}
+	{%- for script in scripts -%}
+	<script data-web-template="{{ web_template }}">{{ script }}</script>
+	{%- endfor -%}
+	{%- endif -%}
+	{%- endfor -%}
+
+	{%- for web_template, script_srcs in (page_builder_script_srcs or {}).items() -%}
+	{%- if script_srcs -%}
+	{%- for script in script_srcs -%}
 	{{ script }}
 	{%- endfor -%}
-	{%- for script in page_builder_scripts -%}
-	<script>{{ script }}</script>
-	{%- endfor -%}
+	{%- endif -%}
+	{% endfor %}
 {% endblock %}
