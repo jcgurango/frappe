@@ -528,7 +528,7 @@ class Document(BaseDocument):
 			d.docstatus = self.docstatus
 
 	def _validate(self):
-		if self.name.endswith(' ') or self.name.startswith(' '):
+		if str(self.name).endswith(' ') or str(self.name).startswith(' '):
 			frappe.throw('Document names cannot start or end with a space')
 
 		self._validate_mandatory()
