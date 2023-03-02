@@ -253,6 +253,8 @@ def get_user_record(user: str, data: dict) -> "User":
 		if not user.enabled:
 			frappe.respond_as_web_page(_('Not Allowed'), _('User {0} is disabled').format(user.email))
 			return None
+
+		return user
 	except frappe.DoesNotExistError:
 		if frappe.get_website_settings("disable_signup"):
 			raise SignupDisabledError
