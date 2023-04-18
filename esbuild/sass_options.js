@@ -13,7 +13,6 @@ module.exports = {
 	importer: function(url, prev) {
 		if (url.startsWith('overrideable:')) {
 			url = url.slice(13);
-	/*
 			const dir = path.dirname(prev);
 			const fullPath = path.resolve(dir, url).slice(apps_path.length);
 
@@ -39,7 +38,6 @@ module.exports = {
 					return accept(path.join(app_path, 'overrides', fullPath + '.scss'));
 				}
 			}
-*/
 		}
 
 		if (url.startsWith("~")) {
