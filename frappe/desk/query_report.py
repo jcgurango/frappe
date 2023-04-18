@@ -491,7 +491,7 @@ def add_total_row(result, columns, meta=None, is_tree=False, parent_field=None):
 	if isinstance(columns[0], str):
 		first_col = columns[0].split(":")
 		if len(first_col) > 1:
-			first_col_fieldtype = first_col[1].split("/")[0]
+			first_col_fieldtype = first_col[1].split("/", 1)[0]
 	else:
 		first_col_fieldtype = columns[0].get("fieldtype")
 
@@ -506,7 +506,7 @@ def add_total_row(result, columns, meta=None, is_tree=False, parent_field=None):
 def get_data_for_custom_field(doctype, field):
 
 	if not frappe.has_permission(doctype, "read"):
-		frappe.throw(_("Not Permitted"), frappe.PermissionError)
+		frappe.throw(_("Not Permitted to read {0}").format(doctype), frappe.PermissionError)
 
 	value_map = frappe._dict(frappe.get_all(doctype, fields=["name", field], as_list=1))
 

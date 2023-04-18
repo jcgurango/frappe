@@ -5,6 +5,7 @@ import json
 import quopri
 import smtplib
 import traceback
+from contextlib import suppress
 from email.parser import Parser
 from email.policy import SMTPUTF8
 
@@ -39,7 +40,7 @@ class EmailQueue(Document):
 	def set_recipients(self, recipients):
 		self.set("recipients", [])
 		for r in recipients:
-			self.append("recipients", {"recipient": r, "status": "Not Sent"})
+			self.append("recipients", {"recipient": r.strip(), "status": "Not Sent"})
 
 	def on_trash(self):
 		self.prevent_email_queue_delete()
@@ -390,6 +391,8 @@ def on_doctype_update():
 		"Email Queue", ("status", "send_after", "priority", "creation"), "index_bulk_flush"
 	)
 
+	frappe.db.add_index("Email Queue", ["message_id(140)"])
+
 
 def get_email_retry_limit():
 	return cint(frappe.db.get_system_setting("email_retry_limit")) or 3
@@ -684,7 +687,10 @@ class QueueBuilder:
 			if not smtp_server_instance:
 				email_account = q.get_email_account()
 				smtp_server_instance = email_account.get_smtp_server()
-			q.send(smtp_server_instance=smtp_server_instance)
+
+			with suppress(Exception):
+				q.send(smtp_server_instance=smtp_server_instance)
+
 		smtp_server_instance.quit()
 
 	def as_dict(self, include_recipients=True):
@@ -711,7 +717,7 @@ class QueueBuilder:
 			"attachments": json.dumps(self.get_attachments()),
 			"message_id": get_string_between("<", mail.msg_root["Message-Id"], ">"),
 			"message": mail_to_string,
-			"sender": self.sender,
+			"sender": mail.sender,
 			"reference_doctype": self.reference_doctype,
 			"reference_name": self.reference_name,
 			"add_unsubscribe_link": self._add_unsubscribe_link,
