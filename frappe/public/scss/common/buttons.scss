@@ -62,7 +62,7 @@
 	background-color: var(--control-bg);
 	color: var(--text-color);
 	&:hover, &:active {
-		background-color: var(--gray-400);
+		background-color: var(--gray-300);
 		color: var(--text-color);
 	}
 }
@@ -77,11 +77,14 @@
 }
 
 .btn.btn-primary {
-	background-color: var(--primary);
-	color: var(--white);
-	white-space: nowrap;
-	--icon-stroke: currentColor;
-	--icon-fill-bg: var(--primary);
+  background-color: #ffd64b;
+  color: var(--white);
+  white-space: nowrap;
+  --icon-stroke: currentColor;
+  --icon-fill-bg: #ffd64b;
+  box-shadow: rgba(0, 0, 0, 0.025) 0px 0.5px 0px 0px, rgba(0, 0, 0, 0.04) 0px 0px 0px 1px, rgba(0, 0, 0, 0.025) 0px 2px 4px 0px;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
+  font-weight: bold;
 }
 
 .btn.btn-danger {

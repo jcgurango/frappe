@@ -1,5 +1,5 @@
 @import '../common/quill';
-@import 'overrideable:variables';
+@import 'variables';
 @import '~bootstrap/scss/bootstrap';
 @import '~cropperjs/dist/cropper.min';
 @import "../common/mixins";
@@ -7,7 +7,7 @@
 @import "../common/icons";
 @import "../common/alert";
 @import "../common/flex";
-@import "overrideable:../common/buttons";
+@import "../common/buttons";
 @import "../common/modal";
 @import "../desk/toast";
 @import "../common/css_variables.scss";
