@@ -72,5 +72,3 @@ zxcvbn-python~=4.4.24
 tenacity~=8.0.1
 cairocffi==1.2.0
 WeasyPrint==52.5
-pdf2image~=1.16.0
-pikepdf~=5.0.0
