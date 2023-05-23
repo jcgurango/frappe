@@ -132,7 +132,7 @@ class DocType(Document):
 
 		check_email_append_to(self)
 
-		if self.default_print_format and not self.custom:
+		if self.default_print_format and not self.custom and frappe.db.get_value('Print Format', self.default_print_format, 'standard') != 'Yes':
 			frappe.throw(_("Standard DocType cannot have default print format, use Customize Form"))
 
 	def validate_field_name_conflicts(self):
