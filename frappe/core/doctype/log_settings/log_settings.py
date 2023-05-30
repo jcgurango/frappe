@@ -117,7 +117,7 @@ def run_log_clean_up():
 
 @frappe.whitelist()
 def has_unseen_error_log():
-	if frappe.get_all("Error Log", filters={"seen": 0}, limit=1):
+	if frappe.get_value('System Settings', 'show_unseen_error_logs') and frappe.get_all("Error Log", filters={"seen": 0}, limit=1):
 		return {
 			"show_alert": True,
 			"message": _("You have unseen {0}").format(
