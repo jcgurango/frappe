@@ -77,6 +77,7 @@
   "prepared_report_expiry_period",
   "column_break_64",
   "max_auto_email_report_per_user",
+  "show_unseen_error_log_message",
   "system_updates_section",
   "disable_system_update_notification",
   "disable_change_log_notification"
@@ -555,12 +556,18 @@
    "fieldname": "disable_document_sharing",
    "fieldtype": "Check",
    "label": "Disable Document Sharing"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_unseen_error_log_message",
+   "fieldtype": "Check",
+   "label": "Show Unseen Error Log Message"
   }
  ],
  "icon": "fa fa-cog",
  "issingle": 1,
  "links": [],
- "modified": "2023-03-14 11:30:56.465653",
+ "modified": "2023-05-30 17:32:43.111042",
  "modified_by": "Administrator",
  "module": "Core",
  "name": "System Settings",
